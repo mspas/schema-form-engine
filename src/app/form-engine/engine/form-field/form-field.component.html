@@ -1,0 +1,12 @@
+@if (schema().label) {
+  <span>{{ schema().label }}</span>
+}
+
+<ng-container
+  *ngTemplateOutlet="
+    template;
+    context: {
+      $implicit: control,
+      schema: schema,
+    }
+  " />
