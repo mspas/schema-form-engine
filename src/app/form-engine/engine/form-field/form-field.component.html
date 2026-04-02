@@ -1,12 +1,12 @@
-@if (schema().label) {
-  <span>{{ schema().label }}</span>
+@if (controlSchema().label) {
+  <span>{{ controlSchema().label }}</span>
 }
 
 <ng-container
-  *ngTemplateOutlet="
-    template;
-    context: {
-      $implicit: control,
-      schema: schema,
+  *ngComponentOutlet="
+    componentType();
+    inputs: {
+      control: control(),
+      controlSchema: controlSchema(),
     }
   " />

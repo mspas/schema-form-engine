@@ -2,11 +2,11 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormRendererComponent } from '../form-engine/engine/form-renderer/form-renderer.component';
 import { FormSchema } from '../form-engine/schema/form-schema.model';
 
-interface UserFormModel {
+/*interface UserFormModel {
   firstName: string;
   age: number;
   newsletter: boolean;
-}
+}*/
 
 @Component({
   selector: 'app-demo',
@@ -15,7 +15,7 @@ interface UserFormModel {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DemoComponent {
-  schema: FormSchema<UserFormModel> = {
+  schema: FormSchema = {
     id: 'user-form',
 
     controls: [
