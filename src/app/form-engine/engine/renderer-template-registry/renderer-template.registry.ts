@@ -1,19 +1,31 @@
-import { TemplateRef } from '@angular/core';
+// renderer-template.registry.ts
 
-export class RendererTemplateRegistry<TModel extends object> {
-  private registry = new Map<string, TemplateRef<TModel>>();
+import { Inject, Injectable, InjectionToken, Type } from '@angular/core';
+import { FieldRenderer } from '../../schema/form-control.model';
 
-  register(type: string, template: TemplateRef<TModel>) {
-    this.registry.set(type, template);
+export interface RendererDef {
+  type: string;
+  component: Type<FieldRenderer>;
+}
+
+export const RENDERERS = new InjectionToken<RendererDef[]>('RENDERERS');
+
+@Injectable()
+export class RendererRegistry {
+  private map = new Map<string, Type<FieldRenderer>>();
+
+  // eslint-disable-next-line @angular-eslint/prefer-inject
+  constructor(@Inject(RENDERERS) renderers: RendererDef[][] = []) {
+    renderers.flat().forEach((r) => {
+      this.map.set(r.type, r.component);
+    });
   }
 
-  get(type: string): TemplateRef<TModel> {
-    const template = this.registry.get(type);
-
-    if (!template) {
-      throw new Error(`No template for type ${type}`);
+  get(type: string): Type<FieldRenderer> {
+    const cmp = this.map.get(type);
+    if (!cmp) {
+      throw new Error(`No renderer for type: ${type}`);
     }
-
-    return template;
+    return cmp;
   }
 }

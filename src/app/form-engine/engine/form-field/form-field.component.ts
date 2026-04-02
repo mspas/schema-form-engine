@@ -1,19 +1,28 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  inject,
+  computed,
+} from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilderService } from '../../services/form-builder.service';
 import { ControlSchema } from '../../schema/form-control.model';
+import { RendererRegistry } from '../renderer-template-registry/renderer-template.registry';
 
 @Component({
   selector: 'app-form-field',
   templateUrl: './form-field.component.html',
-  imports: [ReactiveFormsModule, NgTemplateOutlet],
+  imports: [ReactiveFormsModule, NgComponentOutlet],
   providers: [FormBuilderService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormFieldComponent<TModel extends object> {
-  control = input.required<FormControl>();
-  schema = input.required<ControlSchema<TModel>>();
+export class FormFieldComponent {
+  control = input.required<AbstractControl>();
+  controlSchema = input.required<ControlSchema>();
 
-  template = null;
+  registry = inject(RendererRegistry);
+
+  componentType = computed(() => this.registry.get(this.controlSchema().type));
 }

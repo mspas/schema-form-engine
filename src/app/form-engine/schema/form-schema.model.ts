@@ -1,6 +1,6 @@
 import { ControlSchema } from './form-control.model';
 
-export interface FormSchema<TModel extends object> {
+export interface FormSchema {
   id: string;
-  controls: ControlSchema<TModel>[];
+  controls: ControlSchema[];
 }

@@ -1,5 +1,7 @@
 <form [formGroup]="form()">
-  <!--@for (control of schema.controls; track control.controlName) {
-    <fe-dynamic-control [schema]="control" [form]="form" />
-}-->
+  @for (controlSchema of schema().controls; track controlSchema) {
+    <app-form-field
+      [controlSchema]="controlSchema"
+      [control]="form().get(controlSchema.controlName)!" />
+  }
 </form>

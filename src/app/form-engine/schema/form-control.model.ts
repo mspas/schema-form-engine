@@ -1,53 +1,38 @@
+import { FormControl } from '@angular/forms';
 import { ValidatorSchema } from './validator-schema.model';
 import { VisibilityRule } from './visibility-rule.mode';
 
-export type ControlSchema<TModel> =
-  | TextControlSchema<TModel>
-  | NumberControlSchema<TModel>
-  | CheckboxControlSchema<TModel>
-  | SelectControlSchema<TModel>;
+export type ControlSchema =
+  | TextControlSchema
+  | NumberControlSchema
+  | CheckboxControlSchema
+  | SelectControlSchema;
 
-export type KeysOfType<T, TValue> = {
-  [K in keyof T]: T[K] extends TValue ? K : never;
-}[keyof T];
-
-export interface BaseControlSchema<TModel, TValue> {
+export interface BaseControlSchema {
   type: string;
-  controlName: KeysOfType<TModel, TValue>;
+  controlName: string;
   label?: string;
-  initialValue?: TValue;
+  initialValue?: unknown;
   validators?: ValidatorSchema[];
-  visibility?: VisibilityRule<TModel>;
+  visibility?: VisibilityRule<unknown>;
 }
 
-export interface TextControlSchema<TModel> extends BaseControlSchema<
-  TModel,
-  string
-> {
+export interface TextControlSchema extends BaseControlSchema {
   type: 'text';
   placeholder?: string;
 }
 
-export interface NumberControlSchema<TModel> extends BaseControlSchema<
-  TModel,
-  number
-> {
+export interface NumberControlSchema extends BaseControlSchema {
   type: 'number';
   min?: number;
   max?: number;
 }
 
-export interface CheckboxControlSchema<TModel> extends BaseControlSchema<
-  TModel,
-  boolean
-> {
+export interface CheckboxControlSchema extends BaseControlSchema {
   type: 'checkbox';
 }
 
-export interface SelectControlSchema<TModel> extends BaseControlSchema<
-  TModel,
-  string
-> {
+export interface SelectControlSchema extends BaseControlSchema {
   type: 'select';
   options: SelectOption[];
 }
@@ -55,4 +40,9 @@ export interface SelectControlSchema<TModel> extends BaseControlSchema<
 export interface SelectOption {
   label: string;
   value: string;
+}
+
+export interface FieldRenderer<TSchema = unknown> {
+  control: FormControl;
+  controlSchema: TSchema;
 }
