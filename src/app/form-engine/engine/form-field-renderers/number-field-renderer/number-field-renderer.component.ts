@@ -1,0 +1,24 @@
+import { Component, Input } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FieldRenderer,
+  NumberControlSchema,
+} from '../../../schema/form-control.model';
+
+@Component({
+  selector: 'app-number-renderer',
+  template: `
+    <input
+      type="number"
+      [formControl]="control"
+      [attr.min]="controlSchema.min"
+      [attr.max]="controlSchema.max"
+      [placeholder]="controlSchema.placeholder || controlSchema.label" />
+  `,
+  standalone: true,
+  imports: [ReactiveFormsModule],
+})
+export class NumberRendererComponent implements FieldRenderer<NumberControlSchema> {
+  @Input() control!: FormControl;
+  @Input() controlSchema!: NumberControlSchema;
+}
