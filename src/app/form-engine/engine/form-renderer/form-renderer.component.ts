@@ -14,7 +14,10 @@ import {
   RendererRegistry,
   RENDERERS,
 } from '../renderer-template-registry/renderer-template.registry';
-import { TextRendererComponent } from '../text-field-renderer/text-field-renderer.component';
+import { TextRendererComponent } from '../form-field-renderers/text-field-renderer/text-field-renderer.component';
+import { NumberRendererComponent } from '../form-field-renderers/number-field-renderer/number-field-renderer.component';
+import { CheckboxRendererComponent } from '../form-field-renderers/checkbox-field-renderer/checkbox-field-renderer.component';
+import { SelectRendererComponent } from '../form-field-renderers/select-field-renderer/select-field-renderer.component';
 
 @Component({
   selector: 'app-form-angular',
@@ -29,6 +32,30 @@ import { TextRendererComponent } from '../text-field-renderer/text-field-rendere
       useValue: {
         type: 'text',
         component: TextRendererComponent,
+      },
+    },
+    {
+      provide: RENDERERS,
+      multi: true,
+      useValue: {
+        type: 'number',
+        component: NumberRendererComponent,
+      },
+    },
+    {
+      provide: RENDERERS,
+      multi: true,
+      useValue: {
+        type: 'checkbox',
+        component: CheckboxRendererComponent,
+      },
+    },
+    {
+      provide: RENDERERS,
+      multi: true,
+      useValue: {
+        type: 'select',
+        component: SelectRendererComponent,
       },
     },
   ],

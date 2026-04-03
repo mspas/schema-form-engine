@@ -24,6 +24,7 @@ export interface TextControlSchema extends BaseControlSchema {
 
 export interface NumberControlSchema extends BaseControlSchema {
   type: 'number';
+  placeholder?: string;
   min?: number;
   max?: number;
 }
@@ -34,6 +35,7 @@ export interface CheckboxControlSchema extends BaseControlSchema {
 
 export interface SelectControlSchema extends BaseControlSchema {
   type: 'select';
+  placeholder?: string;
   options: SelectOption[];
 }
 
