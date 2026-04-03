@@ -10,7 +10,10 @@ export class FormBuilderService {
         Object.entries(schema.controls).map(([, control]) => {
           return [
             control.controlName,
-            new FormControl({ value: control.initialValue, disabled: false }),
+            new FormControl({
+              value: control.initialValue ?? null,
+              disabled: false,
+            }),
           ];
         }),
       ),
