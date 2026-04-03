@@ -3,12 +3,14 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   FieldRenderer,
   TextControlSchema,
-} from '../../schema/form-control.model';
+} from '../../../schema/form-control.model';
 
 @Component({
   selector: 'app-text-renderer',
   template: `
-    <input [formControl]="control" [placeholder]="controlSchema.label" />
+    <input
+      [formControl]="control"
+      [placeholder]="controlSchema.placeholder || controlSchema.label" />
   `,
   standalone: true,
   imports: [ReactiveFormsModule],
