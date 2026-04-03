@@ -1,0 +1,31 @@
+import { Component, Input } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FieldRenderer,
+  SelectControlSchema,
+} from '../../../schema/form-control.model';
+
+@Component({
+  selector: 'app-select-renderer',
+  template: `
+    <select [formControl]="control">
+      @if (controlSchema.placeholder || controlSchema.label) {
+        <option [ngValue]="null" disabled>
+          {{ controlSchema.placeholder || controlSchema.label }}
+        </option>
+      }
+
+      @for (option of controlSchema.options; track option.value) {
+        <option [value]="option.value">
+          {{ option.label }}
+        </option>
+      }
+    </select>
+  `,
+  standalone: true,
+  imports: [ReactiveFormsModule],
+})
+export class SelectRendererComponent implements FieldRenderer<SelectControlSchema> {
+  @Input() control!: FormControl;
+  @Input() controlSchema!: SelectControlSchema;
+}
