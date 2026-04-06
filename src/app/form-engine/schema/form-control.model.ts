@@ -8,10 +8,13 @@ export type ControlSchema =
   | CheckboxControlSchema
   | SelectControlSchema;
 
-export interface BaseControlSchema {
+export interface BaseSubjectSchema {
   type: string;
-  controlName: string;
   label?: string;
+}
+
+export interface BaseControlSchema extends BaseSubjectSchema {
+  controlName: string;
   initialValue?: unknown;
   validators?: ValidatorSchema[];
   visibility?: VisibilityRule<unknown>;

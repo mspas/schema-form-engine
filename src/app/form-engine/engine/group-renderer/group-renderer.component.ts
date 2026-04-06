@@ -1,13 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  effect,
-  inject,
-  computed,
-} from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { FormSchema } from '../../schema/form-schema.model';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { GroupFieldSchema } from '../../schema/form-schema.model';
 import { FormBuilderService } from '../../services/form-builder.service';
 import { FormFieldComponent } from '../form-field/form-field.component';
 import {
@@ -18,12 +11,11 @@ import { TextRendererComponent } from '../form-field-renderers/text-field-render
 import { NumberRendererComponent } from '../form-field-renderers/number-field-renderer/number-field-renderer.component';
 import { CheckboxRendererComponent } from '../form-field-renderers/checkbox-field-renderer/checkbox-field-renderer.component';
 import { SelectRendererComponent } from '../form-field-renderers/select-field-renderer/select-field-renderer.component';
-import { GroupRendererComponent } from '../group-renderer/group-renderer.component';
 
 @Component({
-  selector: 'app-form-angular',
-  templateUrl: './form-renderer.component.html',
-  imports: [ReactiveFormsModule, FormFieldComponent, GroupRendererComponent],
+  selector: 'app-group-form-renderer',
+  templateUrl: './group-renderer.component.html',
+  imports: [ReactiveFormsModule, FormFieldComponent],
   providers: [
     FormBuilderService,
     RendererRegistry,
@@ -62,23 +54,9 @@ import { GroupRendererComponent } from '../group-renderer/group-renderer.compone
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormRendererComponent {
-  formBuilder = inject(FormBuilderService);
-
-  schema = input.required<FormSchema>();
-
-  form = computed(() => this.formBuilder.buildForm(this.schema()));
-
-  constructor() {
-    effect(() => {
-      console.log('Form schema updated:', this.schema());
-      console.log('Form updated:', this.form());
-    });
-
-    effect(() => {
-      console.log('Form controls:', this.form().controls);
-    });
-  }
+export class GroupRendererComponent {
+  form = input.required<FormGroup>();
+  schema = input.required<GroupFieldSchema>();
 
   getControl(name: string): FormControl {
     return this.form().get(name) as FormControl;

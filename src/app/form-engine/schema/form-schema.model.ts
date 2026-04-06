@@ -1,6 +1,11 @@
-import { ControlSchema } from './form-control.model';
+import { BaseSubjectSchema, ControlSchema } from './form-control.model';
+
+export interface GroupFieldSchema extends BaseSubjectSchema {
+  type: 'group';
+  controls: (GroupFieldSchema | ControlSchema)[];
+}
 
 export interface FormSchema {
-  id: string;
-  controls: ControlSchema[];
+  controls: (GroupFieldSchema | ControlSchema)[];
+  id?: string;
 }
