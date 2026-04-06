@@ -16,13 +16,23 @@ import { FormSchema } from '../form-engine/schema/form-schema.model';
 })
 export class DemoComponent {
   schema: FormSchema = {
-    id: 'user-form',
     controls: [
       {
-        type: 'text',
-        controlName: 'firstName',
-        label: 'First Name',
-        placeholder: 'Enter your first name',
+        type: 'group',
+        controls: [
+          {
+            type: 'text',
+            controlName: 'firstName',
+            label: 'First Name',
+            placeholder: 'Enter your first name',
+          },
+          {
+            type: 'text',
+            controlName: 'lastName',
+            label: 'Last Name',
+            placeholder: 'Enter your last name',
+          },
+        ],
       },
       {
         type: 'number',
