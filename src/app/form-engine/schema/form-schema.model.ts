@@ -1,4 +1,5 @@
 import { BaseSubjectSchema, ControlSchema } from './form-control.model';
+import { UpdateOn } from './update-on.model';
 
 export interface GroupFieldSchema extends BaseSubjectSchema {
   type: 'group';
@@ -8,4 +9,5 @@ export interface GroupFieldSchema extends BaseSubjectSchema {
 export interface FormSchema {
   controls: (GroupFieldSchema | ControlSchema)[];
   id?: string;
+  updateOn?: UpdateOn;
 }

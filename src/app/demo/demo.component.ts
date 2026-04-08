@@ -27,6 +27,7 @@ export class DemoComponent {
             controlName: 'firstName',
             label: 'First Name',
             placeholder: 'Enter your first name',
+            updateOn: 'change',
           },
           {
             type: 'text',
@@ -58,6 +59,7 @@ export class DemoComponent {
         ],
       },
     ],
+    updateOn: 'blur',
   };
 
   onSubmit(value: UserFormModel) {

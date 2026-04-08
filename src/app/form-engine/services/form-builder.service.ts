@@ -5,7 +5,7 @@ import { ControlSchema } from '../schema/form-control.model';
 
 @Injectable()
 export class FormBuilderService {
-  buildForm(schema: FormSchema | GroupFieldSchema): FormGroup {
+  buildForm(schema: FormSchema): FormGroup {
     const controls: Record<string, FormControl> = {};
 
     const collectControls = (node: FormSchema | GroupFieldSchema) => {
@@ -13,16 +13,18 @@ export class FormBuilderService {
         if (this.isGroupFieldSchema(item)) {
           collectControls(item);
         } else {
-          controls[item.controlName] = new FormControl({
-            value: item.initialValue ?? null,
-            disabled: false,
-          });
+          controls[item.controlName] = new FormControl(
+            item.initialValue ?? null,
+            {
+              updateOn: item.updateOn ?? schema.updateOn,
+            },
+          );
         }
       }
     };
 
     collectControls(schema);
-    return new FormGroup(controls);
+    return new FormGroup(controls, { updateOn: schema.updateOn });
   }
 
   private isGroupFieldSchema(
