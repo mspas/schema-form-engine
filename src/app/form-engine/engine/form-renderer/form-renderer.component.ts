@@ -5,6 +5,7 @@ import {
   effect,
   inject,
   computed,
+  output,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FormSchema } from '../../schema/form-schema.model';
@@ -62,10 +63,11 @@ import { GroupRendererComponent } from '../group-renderer/group-renderer.compone
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormRendererComponent {
+export class FormRendererComponent<TModel> {
   formBuilder = inject(FormBuilderService);
 
   schema = input.required<FormSchema>();
+  formSubmit = output<TModel>();
 
   form = computed(() => this.formBuilder.buildForm(this.schema()));
 
@@ -82,5 +84,11 @@ export class FormRendererComponent {
 
   getControl(name: string): FormControl {
     return this.form().get(name) as FormControl;
+  }
+
+  onSubmit() {
+    if (this.form().valid) {
+      this.formSubmit.emit(this.form().value);
+    }
   }
 }

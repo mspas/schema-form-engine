@@ -1,4 +1,4 @@
-<form [formGroup]="form()">
+<form [formGroup]="form()" (ngSubmit)="onSubmit()">
   @for (subjectSchema of schema().controls; track subjectSchema) {
     @if (subjectSchema.type === 'group') {
       <app-group-form-renderer [form]="form()" [schema]="subjectSchema" />
@@ -8,4 +8,5 @@
         [control]="form().get(subjectSchema.controlName)!" />
     }
   }
+  <button type="submit">Submit</button>
 </form>
