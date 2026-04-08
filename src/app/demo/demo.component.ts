@@ -2,11 +2,13 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormRendererComponent } from '../form-engine/engine/form-renderer/form-renderer.component';
 import { FormSchema } from '../form-engine/schema/form-schema.model';
 
-/*interface UserFormModel {
+interface UserFormModel {
   firstName: string;
+  lastName: string;
   age: number;
   newsletter: boolean;
-}*/
+  gender: string;
+}
 
 @Component({
   selector: 'app-demo',
@@ -47,14 +49,18 @@ export class DemoComponent {
       },
       {
         type: 'select',
-        controlName: 'dupa',
-        label: 'Select Option',
+        controlName: 'gender',
+        label: 'Select gender',
         placeholder: 'Choose an option',
         options: [
-          { value: 'yes', label: 'Yes' },
-          { value: 'no', label: 'No' },
+          { value: 'female', label: 'Female' },
+          { value: 'male', label: 'Male' },
         ],
       },
     ],
   };
+
+  onSubmit(value: UserFormModel) {
+    console.log('Form submitted with value:', value);
+  }
 }
