@@ -1,12 +1,14 @@
-@if (controlSchema().label) {
-  <span>{{ controlSchema().label }}</span>
-}
+<div [class]="'form-field form-field--' + labelOrientation()">
+  @if (controlSchema().label) {
+    <span>{{ controlSchema().label }}</span>
+  }
 
-<ng-container
-  *ngComponentOutlet="
-    componentType();
-    inputs: {
-      control: control(),
-      controlSchema: controlSchema(),
-    }
-  " />
+  <ng-container
+    *ngComponentOutlet="
+      componentType();
+      inputs: {
+        control: control(),
+        controlSchema: controlSchema(),
+      }
+    " />
+</div>

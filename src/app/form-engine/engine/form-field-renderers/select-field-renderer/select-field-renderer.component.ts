@@ -15,7 +15,7 @@ import {
         </option>
       }
 
-      @for (option of controlSchema.options; track option.value) {
+      @for (option of controlSchema.items; track option.value) {
         <option [value]="option.value">
           {{ option.label }}
         </option>

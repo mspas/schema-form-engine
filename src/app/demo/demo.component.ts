@@ -36,6 +36,9 @@ export class DemoComponent {
             placeholder: 'Enter your last name',
           },
         ],
+        options: {
+          orientation: 'row',
+        },
       },
       {
         type: 'number',
@@ -47,19 +50,29 @@ export class DemoComponent {
         type: 'checkbox',
         controlName: 'newsletter',
         label: 'Subscribe to newsletter',
+        options: {
+          labelOrientation: 'row',
+        },
       },
       {
         type: 'select',
         controlName: 'gender',
         label: 'Select gender',
         placeholder: 'Choose an option',
-        options: [
+        items: [
           { value: 'female', label: 'Female' },
           { value: 'male', label: 'Male' },
         ],
+        options: {
+          labelOrientation: 'row',
+        },
       },
     ],
     updateOn: 'blur',
+    options: {
+      orientation: 'column',
+      labelOrientation: 'column',
+    },
   };
 
   onSubmit(value: UserFormModel) {

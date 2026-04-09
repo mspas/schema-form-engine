@@ -20,6 +20,7 @@ import { NumberRendererComponent } from '../form-field-renderers/number-field-re
 import { CheckboxRendererComponent } from '../form-field-renderers/checkbox-field-renderer/checkbox-field-renderer.component';
 import { SelectRendererComponent } from '../form-field-renderers/select-field-renderer/select-field-renderer.component';
 import { GroupRendererComponent } from '../group-renderer/group-renderer.component';
+import { FORM_OPTIONS } from '../../schema/form-options-token';
 
 @Component({
   selector: 'app-form-angular',
@@ -60,11 +61,17 @@ import { GroupRendererComponent } from '../group-renderer/group-renderer.compone
         component: SelectRendererComponent,
       },
     },
+    {
+      provide: FORM_OPTIONS,
+      useFactory: (component: FormRendererComponent<unknown>) =>
+        component.schema().options,
+      deps: [FormRendererComponent],
+    },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormRendererComponent<TModel> {
-  formBuilder = inject(FormBuilderService);
+  private formBuilder = inject(FormBuilderService);
 
   schema = input.required<FormSchema>();
   formSubmit = output<TModel>();

@@ -2,6 +2,7 @@ import { FormControl } from '@angular/forms';
 import { ValidatorSchema } from './validator-schema.model';
 import { VisibilityRule } from './visibility-rule.mode';
 import { UpdateOn } from './update-on.model';
+import { ElementFormOptions } from './form-options.model';
 
 export type ControlSchema =
   | TextControlSchema
@@ -9,12 +10,13 @@ export type ControlSchema =
   | CheckboxControlSchema
   | SelectControlSchema;
 
-export interface BaseSubjectSchema {
+export interface BaseElementSchema {
   type: string;
   label?: string;
+  options?: ElementFormOptions;
 }
 
-export interface BaseControlSchema extends BaseSubjectSchema {
+export interface BaseControlSchema extends BaseElementSchema {
   controlName: string;
   initialValue?: unknown;
   validators?: ValidatorSchema[];
@@ -40,8 +42,8 @@ export interface CheckboxControlSchema extends BaseControlSchema {
 
 export interface SelectControlSchema extends BaseControlSchema {
   type: 'select';
+  items: SelectOption[];
   placeholder?: string;
-  options: SelectOption[];
 }
 
 export interface SelectOption {

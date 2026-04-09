@@ -1,9 +1,11 @@
-@for (subjectSchema of schema().controls; track subjectSchema) {
-  @if (subjectSchema.type === 'group') {
-    <app-group-form-renderer [form]="form()" [schema]="subjectSchema" />
-  } @else {
-    <app-form-field
-      [controlSchema]="subjectSchema"
-      [control]="form().get(subjectSchema.controlName)!" />
+<div [class]="'form-group form-group--' + schema().options?.orientation">
+  @for (subjectSchema of schema().controls; track subjectSchema) {
+    @if (subjectSchema.type === 'group') {
+      <app-group-form-renderer [form]="form()" [schema]="subjectSchema" />
+    } @else {
+      <app-form-field
+        [controlSchema]="subjectSchema"
+        [control]="form().get(subjectSchema.controlName)!" />
+    }
   }
-}
+</div>
