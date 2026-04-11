@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { ValidatorSchema } from './validator-schema.model';
+import { ValidatorSchema } from '../engine/validators/validator-schema.model';
 import { VisibilityRule } from './visibility-rule.mode';
 import { UpdateOn } from './update-on.model';
 import { ElementFormOptions } from './form-options.model';

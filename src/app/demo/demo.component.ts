@@ -1,6 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormRendererComponent } from '../form-engine/engine/form-renderer/form-renderer.component';
 import { FormSchema } from '../form-engine/schema/form-schema.model';
+import {
+  customValidator,
+  maxLength,
+  required,
+} from '../form-engine/engine/validators/validator-helpers';
 
 interface UserFormModel {
   firstName: string;
@@ -28,12 +33,14 @@ export class DemoComponent {
             label: 'First Name',
             placeholder: 'Enter your first name',
             updateOn: 'change',
+            validators: [required(), maxLength(100)],
           },
           {
             type: 'text',
             controlName: 'lastName',
             label: 'Last Name',
             placeholder: 'Enter your last name',
+            validators: [required(), maxLength(100)],
           },
         ],
         options: {
@@ -48,8 +55,13 @@ export class DemoComponent {
       },
       {
         type: 'checkbox',
-        controlName: 'newsletter',
-        label: 'Subscribe to newsletter',
+        controlName: 'acceptTerms',
+        label: 'Accept Terms and Conditions',
+        validators: [
+          customValidator((control) =>
+            control.value === true ? null : { mustAccept: true },
+          ),
+        ],
         options: {
           labelOrientation: 'row',
         },
