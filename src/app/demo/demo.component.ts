@@ -4,6 +4,7 @@ import { FormSchema } from '../form-engine/schema/form-schema.model';
 import {
   customValidator,
   maxLength,
+  minLength,
   required,
 } from '../form-engine/engine/validators/validator-helpers';
 
@@ -33,14 +34,18 @@ export class DemoComponent {
             label: 'First Name',
             placeholder: 'Enter your first name',
             updateOn: 'change',
-            validators: [required(), maxLength(100)],
+            validators: [
+              required(),
+              minLength(3, 'Name is too short'),
+              maxLength(100),
+            ],
           },
           {
             type: 'text',
             controlName: 'lastName',
             label: 'Last Name',
             placeholder: 'Enter your last name',
-            validators: [required(), maxLength(100)],
+            validators: [required(), minLength(3), maxLength(100)],
           },
         ],
         options: {
@@ -57,9 +62,12 @@ export class DemoComponent {
         type: 'checkbox',
         controlName: 'acceptTerms',
         label: 'Accept Terms and Conditions',
+        updateOn: 'change',
         validators: [
-          customValidator((control) =>
-            control.value === true ? null : { mustAccept: true },
+          customValidator(
+            'mustAccept',
+            (control) => (control.value === true ? null : { mustAccept: true }),
+            'You must accept the terms and conditions',
           ),
         ],
         options: {

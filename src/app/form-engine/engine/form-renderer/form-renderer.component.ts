@@ -21,6 +21,10 @@ import { CheckboxRendererComponent } from '../form-field-renderers/checkbox-fiel
 import { SelectRendererComponent } from '../form-field-renderers/select-field-renderer/select-field-renderer.component';
 import { GroupRendererComponent } from '../group-renderer/group-renderer.component';
 import { FORM_OPTIONS } from '../../schema/form-options-token';
+import {
+  DEFAULT_ERROR_MESSAGES,
+  ERROR_MESSAGES,
+} from '../error-messages/error-messages.registry';
 
 @Component({
   selector: 'app-form-angular',
@@ -67,6 +71,11 @@ import { FORM_OPTIONS } from '../../schema/form-options-token';
         component.schema().options,
       deps: [FormRendererComponent],
     },
+    {
+      provide: ERROR_MESSAGES,
+      useValue: DEFAULT_ERROR_MESSAGES,
+      multi: true,
+    },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -94,6 +103,8 @@ export class FormRendererComponent<TModel> {
   }
 
   onSubmit() {
+    console.log('Form submitted with value:', this.form());
+
     if (this.form().valid) {
       this.formSubmit.emit(this.form().value);
     }

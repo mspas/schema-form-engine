@@ -10,18 +10,18 @@ import {
 } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { FormBuilderService } from '../../services/form-builder.service';
 import { ControlSchema } from '../../schema/form-control.model';
 import { RendererRegistry } from '../renderer-template-registry/renderer-template.registry';
 import { FORM_OPTIONS } from '../../schema/form-options-token';
 import { ORIENTATION_OPTIONS } from '../../schema/form-options.model';
 import { debouncedValueChanges } from '../../utils/debouncedSignal';
+import { UPDATE_ON } from '../../schema/update-on.model';
+import { ErrorRendererComponent } from '../error-renderer/error-renderer.component';
 
 @Component({
   selector: 'app-form-field',
   templateUrl: './form-field.component.html',
-  imports: [ReactiveFormsModule, NgComponentOutlet],
-  providers: [FormBuilderService],
+  imports: [ReactiveFormsModule, NgComponentOutlet, ErrorRendererComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldComponent implements OnInit {
@@ -44,13 +44,17 @@ export class FormFieldComponent implements OnInit {
 
   valueChanges = signal(null);
 
+  shouldApplyDelay = computed(
+    () =>
+      this.controlSchema().updateOn === UPDATE_ON.change &&
+      this.controlSchema().type !== 'checkbox',
+  );
+
   ngOnInit(): void {
     debouncedValueChanges(
       this.control().valueChanges,
-      this.VALUE_CHANGE_DELAY,
+      this.shouldApplyDelay() ? this.VALUE_CHANGE_DELAY : 0,
       this.destroyRef,
-    ).subscribe((value) => {
-      this.valueChanges.set(value);
-    });
+    ).subscribe((value) => this.valueChanges.set(value));
   }
 }

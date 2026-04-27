@@ -1,30 +1,51 @@
-import { ValidatorSchema, ValidatorFunction } from './validator-schema.model';
+import {
+  ValidatorSchema,
+  ValidatorFunction,
+  VALIDATOR_TYPES,
+} from './validator-schema.model';
 
-export const required = (): ValidatorSchema => ({
-  type: 'required',
+export const required = (errorMessage?: string): ValidatorSchema => ({
+  type: VALIDATOR_TYPES.required,
+  errorMessage,
 });
 
-export const minLength = (value: number): ValidatorSchema => ({
-  type: 'minLength',
+export const minLength = (
+  value: number,
+  errorMessage?: string,
+): ValidatorSchema => ({
+  type: VALIDATOR_TYPES.minlength,
   value,
+  errorMessage,
 });
 
-export const maxLength = (value: number): ValidatorSchema => ({
-  type: 'maxLength',
+export const maxLength = (
+  value: number,
+  errorMessage?: string,
+): ValidatorSchema => ({
+  type: VALIDATOR_TYPES.maxlength,
   value,
+  errorMessage,
 });
 
-export const min = (value: number): ValidatorSchema => ({
-  type: 'min',
+export const min = (value: number, errorMessage?: string): ValidatorSchema => ({
+  type: VALIDATOR_TYPES.min,
   value,
+  errorMessage,
 });
 
-export const max = (value: number): ValidatorSchema => ({
-  type: 'max',
+export const max = (value: number, errorMessage?: string): ValidatorSchema => ({
+  type: VALIDATOR_TYPES.max,
   value,
+  errorMessage,
 });
 
-export const customValidator = (fn: ValidatorFunction): ValidatorSchema => ({
-  type: 'custom',
+export const customValidator = (
+  key: string,
+  fn: ValidatorFunction,
+  errorMessage?: string,
+): ValidatorSchema => ({
+  type: VALIDATOR_TYPES.custom,
+  key,
   fn,
+  errorMessage,
 });

@@ -7,7 +7,10 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { ControlSchema } from '../schema/form-control.model';
-import { ValidatorSchema } from '../engine/validators/validator-schema.model';
+import {
+  VALIDATOR_TYPES,
+  ValidatorSchema,
+} from '../engine/validators/validator-schema.model';
 
 @Injectable()
 export class FormBuilderService {
@@ -43,17 +46,17 @@ export class FormBuilderService {
 
     return validators.map((validator) => {
       switch (validator.type) {
-        case 'required':
+        case VALIDATOR_TYPES.required:
           return Validators.required;
-        case 'minLength':
+        case VALIDATOR_TYPES.minlength:
           return Validators.minLength(validator.value);
-        case 'maxLength':
+        case VALIDATOR_TYPES.maxlength:
           return Validators.maxLength(validator.value);
-        case 'min':
+        case VALIDATOR_TYPES.min:
           return Validators.min(validator.value);
-        case 'max':
+        case VALIDATOR_TYPES.max:
           return Validators.max(validator.value);
-        case 'custom':
+        case VALIDATOR_TYPES.custom:
           return validator.fn;
         default:
           return () => null;

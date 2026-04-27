@@ -1,5 +1,3 @@
-// renderer-template.registry.ts
-
 import { Inject, Injectable, InjectionToken, Type } from '@angular/core';
 import { FieldRenderer } from '../../schema/form-control.model';
 
