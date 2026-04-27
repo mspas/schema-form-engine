@@ -8,32 +8,49 @@ export type ValidatorSchema =
   | MaxValidatorSchema
   | CustomValidatorSchema;
 
-export interface RequiredValidatorSchema {
-  type: 'required';
+export const VALIDATOR_TYPES = {
+  required: 'required',
+  minlength: 'minlength',
+  maxlength: 'maxlength',
+  min: 'min',
+  max: 'max',
+  custom: 'custom',
+} as const;
+export type ValidatorType =
+  (typeof VALIDATOR_TYPES)[keyof typeof VALIDATOR_TYPES];
+
+export interface BaseValidatorSchema {
+  type: ValidatorType;
+  errorMessage?: string;
 }
 
-export interface MinLengthValidatorSchema {
-  type: 'minLength';
+export interface RequiredValidatorSchema extends BaseValidatorSchema {
+  type: typeof VALIDATOR_TYPES.required;
+}
+
+export interface MinLengthValidatorSchema extends BaseValidatorSchema {
+  type: typeof VALIDATOR_TYPES.minlength;
   value: number;
 }
 
-export interface MaxLengthValidatorSchema {
-  type: 'maxLength';
+export interface MaxLengthValidatorSchema extends BaseValidatorSchema {
+  type: typeof VALIDATOR_TYPES.maxlength;
   value: number;
 }
 
-export interface MinValidatorSchema {
-  type: 'min';
+export interface MinValidatorSchema extends BaseValidatorSchema {
+  type: typeof VALIDATOR_TYPES.min;
   value: number;
 }
 
-export interface MaxValidatorSchema {
-  type: 'max';
+export interface MaxValidatorSchema extends BaseValidatorSchema {
+  type: typeof VALIDATOR_TYPES.max;
   value: number;
 }
 
-export interface CustomValidatorSchema {
-  type: 'custom';
+export interface CustomValidatorSchema extends BaseValidatorSchema {
+  type: typeof VALIDATOR_TYPES.custom;
+  key: string;
   fn: ValidatorFunction;
 }
 
