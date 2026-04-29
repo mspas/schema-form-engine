@@ -1,15 +1,20 @@
 <form
   [class]="'form form--' + schema().options?.orientation"
   [formGroup]="form()"
-  (ngSubmit)="onSubmit()">
+  (ngSubmit)="onSubmit()"
+  data-test="form">
   @for (subjectSchema of schema().controls; track subjectSchema) {
     @if (subjectSchema.type === 'group') {
-      <app-group-form-renderer [form]="form()" [schema]="subjectSchema" />
+      <app-group-form-renderer
+        data-test="group-renderer"
+        [form]="form()"
+        [schema]="subjectSchema" />
     } @else {
       <app-form-field
+        data-test="form-field"
         [controlSchema]="subjectSchema"
         [control]="form().get(subjectSchema.controlName)!" />
     }
   }
-  <button type="submit">Submit</button>
+  <button data-test="submit-button" type="submit">Submit</button>
 </form>
