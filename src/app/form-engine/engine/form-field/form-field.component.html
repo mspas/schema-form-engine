@@ -1,6 +1,8 @@
-<div [class]="'form-field form-field--' + labelOrientation()">
+<div
+  data-test="field-container"
+  [class]="'form-field form-field--' + labelOrientation()">
   @if (controlSchema().label) {
-    <span>{{ controlSchema().label }}</span>
+    <span data-test="field-label">{{ controlSchema().label }}</span>
   }
 
   <ng-container

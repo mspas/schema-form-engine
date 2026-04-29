@@ -1,9 +1,15 @@
-<div [class]="'form-group form-group--' + schema().options?.orientation">
+<div
+  data-test="group-container"
+  [class]="'form-group form-group--' + schema().options?.orientation">
   @for (subjectSchema of schema().controls; track subjectSchema) {
     @if (subjectSchema.type === 'group') {
-      <app-group-form-renderer [form]="form()" [schema]="subjectSchema" />
+      <app-group-form-renderer
+        data-test="nested-group"
+        [form]="form()"
+        [schema]="subjectSchema" />
     } @else {
       <app-form-field
+        data-test="group-field"
         [controlSchema]="subjectSchema"
         [control]="form().get(subjectSchema.controlName)!" />
     }
