@@ -8,7 +8,7 @@ import {
 @Component({
   selector: 'app-checkbox-renderer',
   template: `
-    <input type="checkbox" [formControl]="control" />
+    <input data-test="checkbox-input" type="checkbox" [formControl]="control" />
   `,
   standalone: true,
   imports: [ReactiveFormsModule],
