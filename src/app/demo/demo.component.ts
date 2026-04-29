@@ -4,9 +4,11 @@ import { FormSchema } from '../form-engine/schema/form-schema.model';
 import {
   customValidator,
   maxLength,
+  min,
   minLength,
   required,
 } from '../form-engine/engine/validators/validator-helpers';
+import { DemoErrorComponent } from './demo-error.component';
 
 interface UserFormModel {
   firstName: string;
@@ -36,8 +38,8 @@ export class DemoComponent {
             updateOn: 'change',
             validators: [
               required(),
-              minLength(3, 'Name is too short'),
-              maxLength(100),
+              minLength({ value: 3, errorMessage: 'Name is too short' }),
+              maxLength({ value: 100, errorMessage: 'Name is too long' }),
             ],
           },
           {
@@ -45,7 +47,11 @@ export class DemoComponent {
             controlName: 'lastName',
             label: 'Last Name',
             placeholder: 'Enter your last name',
-            validators: [required(), minLength(3), maxLength(100)],
+            validators: [
+              required(),
+              minLength({ value: 3 }),
+              maxLength({ value: 100 }),
+            ],
           },
         ],
         options: {
@@ -57,6 +63,17 @@ export class DemoComponent {
         controlName: 'age',
         label: 'Age',
         placeholder: 'Enter your age',
+        validators: [
+          min({
+            value: 18,
+            errorMessage: {
+              component: DemoErrorComponent,
+              inputs: () => ({
+                text: 'You must be at least 18 years old',
+              }),
+            },
+          }),
+        ],
       },
       {
         type: 'checkbox',
@@ -64,11 +81,12 @@ export class DemoComponent {
         label: 'Accept Terms and Conditions',
         updateOn: 'change',
         validators: [
-          customValidator(
-            'mustAccept',
-            (control) => (control.value === true ? null : { mustAccept: true }),
-            'You must accept the terms and conditions',
-          ),
+          customValidator({
+            key: 'mustAccept',
+            fn: (control) =>
+              control.value === true ? null : { mustAccept: true },
+            errorMessage: 'You must accept the terms and conditions',
+          }),
         ],
         options: {
           labelOrientation: 'row',

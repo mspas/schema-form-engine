@@ -22,6 +22,7 @@ import { SelectRendererComponent } from '../form-field-renderers/select-field-re
 import { GroupRendererComponent } from '../group-renderer/group-renderer.component';
 import { FORM_OPTIONS } from '../../schema/form-options-token';
 import {
+  DEFAULT_ERROR_FALLBACK,
   DEFAULT_ERROR_MESSAGES,
   ERROR_MESSAGES,
 } from '../error-messages/error-messages.registry';
@@ -76,6 +77,7 @@ import {
       useValue: DEFAULT_ERROR_MESSAGES,
       multi: true,
     },
+    { provide: DEFAULT_ERROR_FALLBACK, useValue: 'Invalid field', multi: true },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

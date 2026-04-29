@@ -1,1 +1,15 @@
-{{ errorMessages() }}
+@for (resolvedError of resolvedErrors(); track resolvedError) {
+  @if (resolvedError.type === 'text') {
+    {{ resolvedError.message }}
+  }
+
+  @if (resolvedError.type === 'component') {
+    <ng-container
+      *ngComponentOutlet="
+        resolvedError.component;
+        inputs: {
+          ...resolvedError.inputs,
+        }
+      " />
+  }
+}

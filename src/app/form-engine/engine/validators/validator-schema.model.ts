@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { ErrorMessageContent } from '../error-messages/error-messages.model';
 
 export type ValidatorSchema =
   | RequiredValidatorSchema
@@ -21,7 +22,7 @@ export type ValidatorType =
 
 export interface BaseValidatorSchema {
   type: ValidatorType;
-  errorMessage?: string;
+  errorMessage?: ErrorMessageContent;
 }
 
 export interface RequiredValidatorSchema extends BaseValidatorSchema {

@@ -3,20 +3,17 @@ import {
   VALIDATOR_TYPES,
   ValidatorType,
 } from '../validators/validator-schema.model';
-import { ValidationErrors } from '@angular/forms';
+import { ErrorMessage, ErrorMessageContent } from './error-messages.model';
 
-export type ErrorMessageFactory = (error: ValidationErrors) => string;
-
-export interface ErrorMessageDef {
-  type: ValidatorType;
-  message: ErrorMessageFactory;
-}
-
-export const ERROR_MESSAGES = new InjectionToken<ErrorMessageDef[]>(
+export const ERROR_MESSAGES = new InjectionToken<ErrorMessage[]>(
   'ERROR_MESSAGES',
 );
 
-export const DEFAULT_ERROR_MESSAGES: ErrorMessageDef[] = [
+export const DEFAULT_ERROR_FALLBACK = new InjectionToken<string>(
+  'DEFAULT_ERROR_FALLBACK',
+);
+
+export const DEFAULT_ERROR_MESSAGES: ErrorMessage[] = [
   {
     type: VALIDATOR_TYPES.required,
     message: () => 'This field is required',
@@ -41,16 +38,16 @@ export const DEFAULT_ERROR_MESSAGES: ErrorMessageDef[] = [
 
 @Injectable()
 export class ErrorMessageRegistry {
-  private map = new Map<ValidatorType, ErrorMessageFactory>();
+  private map = new Map<ValidatorType, ErrorMessageContent>();
 
   // eslint-disable-next-line @angular-eslint/prefer-inject
-  constructor(@Inject(ERROR_MESSAGES) defs: ErrorMessageDef[][] = []) {
+  constructor(@Inject(ERROR_MESSAGES) defs: ErrorMessage[][] = []) {
     defs.flat().forEach((def) => {
       this.map.set(def.type, def.message);
     });
   }
 
-  get(type: ValidatorType): ErrorMessageFactory | null {
+  get(type: ValidatorType): ErrorMessageContent | null {
     return this.map.get(type) ?? null;
   }
 }

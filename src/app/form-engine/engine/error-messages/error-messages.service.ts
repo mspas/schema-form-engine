@@ -1,38 +1,48 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Type } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import {
   CustomValidatorSchema,
   VALIDATOR_TYPES,
   ValidatorSchema,
 } from '../validators/validator-schema.model';
-import { ErrorMessageRegistry } from './error-messages.registry';
+import {
+  DEFAULT_ERROR_FALLBACK,
+  ErrorMessageRegistry,
+} from './error-messages.registry';
+import { ErrorMessageContent } from './error-messages.model';
+import { ValidationError } from '@angular/forms/signals';
+
+export type ResolvedError =
+  | { type: 'text'; message: string }
+  | {
+      type: 'component';
+      component: Type<unknown>;
+      inputs?: Record<string, unknown>;
+    };
 
 @Injectable()
 export class ErrorMessageService {
   private readonly registry = inject(ErrorMessageRegistry);
+  private readonly defaultFallback = inject(DEFAULT_ERROR_FALLBACK);
 
-  getErrorMessages(
+  getErrors(
     control: AbstractControl,
     validators: ValidatorSchema[],
-  ): string[] {
+  ): ResolvedError[] {
     if (!control.errors) return [];
 
     return Object.entries(control.errors).map(([errorKey, errorValue]) => {
       const validatorSchema = this.getValidatorSchema(errorKey, validators);
 
-      // 1. schema override
-      if (validatorSchema?.errorMessage) {
-        return validatorSchema.errorMessage;
+      const content =
+        validatorSchema?.errorMessage ??
+        this.registry.get(errorKey as ValidatorSchema['type']);
+
+      if (!content) {
+        return { type: 'text', message: this.defaultFallback };
       }
 
-      // 2. registry fallback
-      const factory = this.registry.get(errorKey as ValidatorSchema['type']);
-      if (factory) {
-        return factory(errorValue);
-      }
-
-      // 3. fallback
-      return `Invalid field`;
+      return this.resolveContent(content, errorValue);
     });
   }
 
@@ -45,5 +55,24 @@ export class ErrorMessageService {
         ? validator.type === errorKey
         : validator.key === errorKey,
     );
+  }
+
+  private resolveContent(
+    content: ErrorMessageContent,
+    errorValue: ValidationError,
+  ): ResolvedError {
+    if (typeof content === 'string') {
+      return { type: 'text', message: content };
+    }
+
+    if (typeof content === 'function') {
+      return { type: 'text', message: content(errorValue) };
+    }
+
+    return {
+      type: 'component',
+      component: content.component,
+      inputs: content.inputs?.(errorValue),
+    };
   }
 }

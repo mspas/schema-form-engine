@@ -18,11 +18,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged } from 'rxjs';
 import { ErrorMessageService } from '../error-messages/error-messages.service';
 import { ErrorMessageRegistry } from '../error-messages/error-messages.registry';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-error-renderer',
   templateUrl: './error-renderer.component.html',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgComponentOutlet],
   providers: [ErrorMessageService, ErrorMessageRegistry],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,12 +35,11 @@ export class ErrorRendererComponent implements OnInit {
   private readonly errorMessageService = inject(ErrorMessageService);
 
   controlErrors = signal<ValidationErrors | null>(null);
-  errorMessages = computed(() => {
+  resolvedErrors = computed(() => {
     const errors = this.controlErrors();
-    console.log(errors);
 
     return !!errors && !!this.controlSchema().validators
-      ? this.errorMessageService.getErrorMessages(
+      ? this.errorMessageService.getErrors(
           this.control(),
           this.controlSchema().validators!,
         )
