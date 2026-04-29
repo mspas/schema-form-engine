@@ -1,6 +1,6 @@
 @for (resolvedError of resolvedErrors(); track resolvedError) {
   @if (resolvedError.type === 'text') {
-    {{ resolvedError.message }}
+    <span data-test="error-text">{{ resolvedError.message }}</span>
   }
 
   @if (resolvedError.type === 'component') {
