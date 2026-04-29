@@ -9,6 +9,7 @@ import {
   selector: 'app-text-renderer',
   template: `
     <input
+      data-test="text-input"
       [formControl]="control"
       [placeholder]="controlSchema.placeholder || controlSchema.label" />
   `,

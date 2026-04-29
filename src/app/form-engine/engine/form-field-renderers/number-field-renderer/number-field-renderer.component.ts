@@ -9,6 +9,7 @@ import {
   selector: 'app-number-renderer',
   template: `
     <input
+      data-test="number-input"
       type="number"
       [formControl]="control"
       [attr.min]="controlSchema.min"

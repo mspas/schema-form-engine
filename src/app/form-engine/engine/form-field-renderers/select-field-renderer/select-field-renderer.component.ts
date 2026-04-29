@@ -8,15 +8,15 @@ import {
 @Component({
   selector: 'app-select-renderer',
   template: `
-    <select [formControl]="control">
+    <select data-test="select-input" [formControl]="control">
       @if (controlSchema.placeholder || controlSchema.label) {
-        <option [ngValue]="null" disabled>
+        <option data-test="select-placeholder" [ngValue]="null" disabled>
           {{ controlSchema.placeholder || controlSchema.label }}
         </option>
       }
 
       @for (option of controlSchema.items; track option.value) {
-        <option [value]="option.value">
+        <option data-test="select-option" [value]="option.value">
           {{ option.label }}
         </option>
       }
